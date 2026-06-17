@@ -90,8 +90,22 @@ async function discoverPlatform(
     const page = await context.newPage()
     await page.route('**/*.{png,jpg,jpeg,gif,svg,woff,woff2,ttf,mp4,webp,avif}', r => r.abort())
 
-    await page.goto(listUrl, { waitUntil: 'domcontentloaded', timeout: 30000 })
+    await page.goto(listUrl, { waitUntil: 'domcontentloaded', timeout: 45000 })
     await page.waitForTimeout(5000)
+
+    // Scroll to load all lazy-loaded restaurants (stop after 2 empty scrolls)
+    let emptyScrolls = 0
+    for (let i = 0; i < 25; i++) {
+      const prevCount = captured.length
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
+      await page.waitForTimeout(2500)
+      if (captured.length === prevCount) {
+        emptyScrolls++
+        if (emptyScrolls >= 2) break
+      } else {
+        emptyScrolls = 0
+      }
+    }
 
     if (captured.length === 0) {
       const html = await page.content()
@@ -131,7 +145,7 @@ function talabatDomExtractor(html: string): DiscoveredRestaurant[] {
   }
 
   const seen = new Set<string>()
-  links.slice(0, 50).forEach((href, i) => {
+  links.forEach((href, i) => {
     const slug = href.split('/uae/')[1]?.split('/')[0]
     if (!slug || seen.has(slug)) return
     seen.add(slug)
@@ -160,7 +174,7 @@ function deliverooDomExtractor(html: string): DiscoveredRestaurant[] {
   const names: string[] = []
   while ((m = namePattern.exec(html)) !== null) names.push(m[1])
 
-  links.slice(0, 50).forEach((href, i) => {
+  links.forEach((href, i) => {
     const slug = href.split('/').pop() ?? ''
     if (!slug || seen.has(slug)) return
     seen.add(slug)
@@ -193,7 +207,7 @@ function genericDomExtractor(platform: Platform, baseUrl: string, pathContains: 
       if (t.length > 2) names.push(t)
     }
 
-    links.slice(0, 50).forEach((href, i) => {
+    links.forEach((href, i) => {
       const slug = href.split('/').pop() ?? ''
       if (!slug || seen.has(slug)) return
       seen.add(slug)

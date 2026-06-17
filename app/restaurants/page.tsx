@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
-import { Search, MapPin } from 'lucide-react'
+import Link from 'next/link'
+import { Search, MapPin, ArrowLeft } from 'lucide-react'
 import { prisma } from '@/lib/prisma'
 import { haversineDistance } from '@/lib/utils'
 import { RestaurantCard } from '@/components/RestaurantCard'
@@ -107,6 +108,9 @@ export default async function RestaurantsPage({ searchParams }: Props) {
       {/* Header */}
       <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-4 pt-12 pb-4 space-y-4">
         <div className="flex items-center gap-2">
+          <Link href="/" className="p-2 -ml-2 rounded-xl hover:bg-muted transition-colors">
+            <ArrowLeft className="w-5 h-5 text-foreground" />
+          </Link>
           <div>
             <h1 className="text-xl font-bold">Nearby restaurants</h1>
             <div className="flex items-center gap-1 text-muted-foreground">

@@ -20,16 +20,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ status: 'already_running' })
   }
 
-  // Check if we already have fresh data for this location (within 6 hours)
-  const sixHoursAgo = new Date(Date.now() - 6 * 60 * 60 * 1000)
-  const recent = await prisma.collectorLog.findFirst({
-    where: { status: 'discovery_complete', createdAt: { gt: sixHoursAgo } },
-    orderBy: { createdAt: 'desc' },
-  })
-  if (recent) {
-    return NextResponse.json({ status: 'already_fresh' })
-  }
-
   activeDiscoveries.add(key)
 
   // Fire and forget — do NOT await
