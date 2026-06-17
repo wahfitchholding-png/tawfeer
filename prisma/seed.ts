@@ -305,6 +305,324 @@ async function main() {
 
   console.log('✓ Pizza Hut done')
 
+  // ─── SUBWAY (Downtown Dubai) ─────────────────────────────────────────────────
+
+  const subway = await prisma.restaurant.upsert({
+    where: { slug: 'subway-downtown' },
+    update: {},
+    create: {
+      id: 'rest_subway_downtown',
+      name: 'Subway',
+      slug: 'subway-downtown',
+      category: 'Sandwiches',
+      logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/5/5c/Subway_2016_logo.svg',
+      lat: 25.1955,
+      lng: 55.2786,
+      address: 'Downtown Dubai, Sheikh Mohammed Bin Rashid Blvd',
+    },
+  })
+
+  await Promise.all([
+    upsertMenuItem('item_sub_footlong_italian',  subway.id, 'Footlong Italian BMT',         'Footlongs', 0, 'Pepperoni, salami, ham with your choice of veggies'),
+    upsertMenuItem('item_sub_footlong_chicken',  subway.id, 'Footlong Chicken Teriyaki',     'Footlongs', 1, 'Teriyaki-glazed chicken with veggies'),
+    upsertMenuItem('item_sub_footlong_tuna',     subway.id, 'Footlong Tuna',                 'Footlongs', 2, 'Tuna blend with your choice of veggies'),
+    upsertMenuItem('item_sub_6inch_veggie',      subway.id, '6-Inch Veggie Delite',          '6-Inch',    0, 'Fresh veggies on freshly baked bread'),
+    upsertMenuItem('item_sub_6inch_turkey',      subway.id, '6-Inch Turkey Breast',          '6-Inch',    1, 'Sliced turkey with fresh veggies'),
+    upsertMenuItem('item_sub_cookies',           subway.id, '3 Cookies',                     'Extras',    0, 'Freshly baked chocolate chip cookies'),
+  ])
+
+  await upsertPrices({
+    'item_sub_footlong_italian': { TALABAT: 32, DELIVEROO: 34, CAREEM: 33, KEETA: 29, NOON_FOOD: 31 },
+    'item_sub_footlong_chicken': { TALABAT: 34, DELIVEROO: 36, CAREEM: 35, KEETA: 31, NOON_FOOD: 33 },
+    'item_sub_footlong_tuna':    { TALABAT: 30, DELIVEROO: 32, CAREEM: 31, KEETA: 27, NOON_FOOD: 29 },
+    'item_sub_6inch_veggie':     { TALABAT: 18, DELIVEROO: 19, CAREEM: 18, KEETA: 16, NOON_FOOD: 17 },
+    'item_sub_6inch_turkey':     { TALABAT: 22, DELIVEROO: 23, CAREEM: 22, KEETA: 20, NOON_FOOD: 21 },
+    'item_sub_cookies':          { TALABAT: 12, DELIVEROO: 13, CAREEM: 12, KEETA: 10, NOON_FOOD: 11 },
+  })
+
+  await upsertPlatformLinks(subway.id, {
+    TALABAT:   { id: 'sub-talabat',   deep: 'https://www.talabat.com/uae/subway-downtown-dubai', web: 'https://www.talabat.com/uae/subway-downtown-dubai' },
+    DELIVEROO: { id: 'sub-deliveroo', deep: 'https://deliveroo.ae/menu/dubai/downtown/subway-downtown', web: 'https://deliveroo.ae/menu/dubai/downtown/subway-downtown' },
+    CAREEM:    { id: 'sub-careem',    deep: 'https://www.careem.com/en-ae/food/restaurant/subway-downtown', web: 'https://www.careem.com/en-ae/food/restaurant/subway-downtown' },
+    KEETA:     { id: 'sub-keeta',     deep: 'https://www.keeta.com/ae/restaurant/subway-downtown', web: 'https://www.keeta.com/ae/restaurant/subway-downtown' },
+    NOON_FOOD: { id: 'sub-noon',      deep: 'https://food.noon.com/ae/subway-downtown', web: 'https://food.noon.com/ae/subway-downtown' },
+  })
+
+  await upsertDeliveryFees(subway.id, {
+    TALABAT:   { baseFee: 5, serviceFeeFlat: 3, serviceFeePercent: 0, smallOrderThreshold: 30, smallOrderFee: 5, estimatedMinutes: 22 },
+    DELIVEROO: { baseFee: 7, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 35, smallOrderFee: 5, estimatedMinutes: 18 },
+    CAREEM:    { baseFee: 5, serviceFeeFlat: 3, serviceFeePercent: 0, smallOrderThreshold: 30, smallOrderFee: 4, estimatedMinutes: 25 },
+    KEETA:     { baseFee: 3, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 25, smallOrderFee: 3, estimatedMinutes: 30 },
+    NOON_FOOD: { baseFee: 4, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 30, smallOrderFee: 4, estimatedMinutes: 27 },
+  })
+
+  console.log('✓ Subway done')
+
+  // ─── SHAKE SHACK (DIFC) ──────────────────────────────────────────────────────
+
+  const shakeShack = await prisma.restaurant.upsert({
+    where: { slug: 'shake-shack-difc' },
+    update: {},
+    create: {
+      id: 'rest_shakeshack_difc',
+      name: 'Shake Shack',
+      slug: 'shake-shack-difc',
+      category: 'Burgers',
+      logoUrl: null,
+      lat: 25.2120,
+      lng: 55.2822,
+      address: 'Gate Village, DIFC, Dubai',
+    },
+  })
+
+  await Promise.all([
+    upsertMenuItem('item_ss_shackburger',    shakeShack.id, 'ShackBurger',             'Burgers',  0, 'Cheeseburger with lettuce, tomato, ShackSauce'),
+    upsertMenuItem('item_ss_smokeshack',     shakeShack.id, 'SmokeShack',              'Burgers',  1, 'ShackBurger + crispy bacon + cherry peppers'),
+    upsertMenuItem('item_ss_chickenshack',   shakeShack.id, 'Chicken Shack',           'Chicken',  0, 'Crispy chicken + pickles + buttermilk herb mayo'),
+    upsertMenuItem('item_ss_fries',          shakeShack.id, 'Crinkle Cut Fries',       'Sides',    0, 'Crispy crinkle-cut fries'),
+    upsertMenuItem('item_ss_shake_vanilla',  shakeShack.id, 'Vanilla Shake',           'Shakes',   0, 'Hand-spun vanilla frozen custard shake'),
+    upsertMenuItem('item_ss_shake_choc',     shakeShack.id, 'Chocolate Shake',         'Shakes',   1, 'Hand-spun chocolate frozen custard shake'),
+  ])
+
+  await upsertPrices({
+    'item_ss_shackburger':   { TALABAT: 49, DELIVEROO: 51, CAREEM: 50, KEETA: 45, NOON_FOOD: 48 },
+    'item_ss_smokeshack':    { TALABAT: 57, DELIVEROO: 60, CAREEM: 58, KEETA: 53, NOON_FOOD: 56 },
+    'item_ss_chickenshack':  { TALABAT: 48, DELIVEROO: 50, CAREEM: 49, KEETA: 44, NOON_FOOD: 47 },
+    'item_ss_fries':         { TALABAT: 22, DELIVEROO: 23, CAREEM: 22, KEETA: 20, NOON_FOOD: 21 },
+    'item_ss_shake_vanilla': { TALABAT: 35, DELIVEROO: 37, CAREEM: 36, KEETA: 32, NOON_FOOD: 34 },
+    'item_ss_shake_choc':    { TALABAT: 35, DELIVEROO: 37, CAREEM: 36, KEETA: 32, NOON_FOOD: 34 },
+  })
+
+  await upsertPlatformLinks(shakeShack.id, {
+    TALABAT:   { id: 'ss-talabat',   deep: 'https://www.talabat.com/uae/shake-shack-difc', web: 'https://www.talabat.com/uae/shake-shack-difc' },
+    DELIVEROO: { id: 'ss-deliveroo', deep: 'https://deliveroo.ae/menu/dubai/difc/shake-shack-difc', web: 'https://deliveroo.ae/menu/dubai/difc/shake-shack-difc' },
+    CAREEM:    { id: 'ss-careem',    deep: 'https://www.careem.com/en-ae/food/restaurant/shake-shack-difc', web: 'https://www.careem.com/en-ae/food/restaurant/shake-shack-difc' },
+    KEETA:     { id: 'ss-keeta',     deep: 'https://www.keeta.com/ae/restaurant/shake-shack-difc', web: 'https://www.keeta.com/ae/restaurant/shake-shack-difc' },
+    NOON_FOOD: { id: 'ss-noon',      deep: 'https://food.noon.com/ae/shake-shack-difc', web: 'https://food.noon.com/ae/shake-shack-difc' },
+  })
+
+  await upsertDeliveryFees(shakeShack.id, {
+    TALABAT:   { baseFee: 8, serviceFeeFlat: 3, serviceFeePercent: 0, smallOrderThreshold: 40, smallOrderFee: 6, estimatedMinutes: 28 },
+    DELIVEROO: { baseFee: 9, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 45, smallOrderFee: 6, estimatedMinutes: 22 },
+    CAREEM:    { baseFee: 7, serviceFeeFlat: 4, serviceFeePercent: 0, smallOrderThreshold: 40, smallOrderFee: 5, estimatedMinutes: 30 },
+    KEETA:     { baseFee: 5, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 35, smallOrderFee: 4, estimatedMinutes: 38 },
+    NOON_FOOD: { baseFee: 6, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 40, smallOrderFee: 5, estimatedMinutes: 32 },
+  })
+
+  console.log('✓ Shake Shack done')
+
+  // ─── POPEYES (JLT) ───────────────────────────────────────────────────────────
+
+  const popeyes = await prisma.restaurant.upsert({
+    where: { slug: 'popeyes-jlt' },
+    update: {},
+    create: {
+      id: 'rest_popeyes_jlt',
+      name: "Popeyes",
+      slug: 'popeyes-jlt',
+      category: 'Chicken',
+      logoUrl: null,
+      lat: 25.0730,
+      lng: 55.1510,
+      address: 'Cluster J, JLT, Dubai',
+    },
+  })
+
+  await Promise.all([
+    upsertMenuItem('item_pop_chickencombo',   popeyes.id, 'Classic Chicken Combo',      'Combos',   0, '2-piece classic chicken + side + drink'),
+    upsertMenuItem('item_pop_spicycombo',     popeyes.id, 'Spicy Chicken Combo',         'Combos',   1, '2-piece spicy chicken + side + drink'),
+    upsertMenuItem('item_pop_chickensandwich',popeyes.id, 'Chicken Sandwich',            'Burgers',  0, 'Crispy chicken fillet on a brioche bun'),
+    upsertMenuItem('item_pop_tenders3',       popeyes.id, '3-Piece Tenders',             'Tenders',  0, 'Hand-battered chicken tenders'),
+    upsertMenuItem('item_pop_redbeansrice',   popeyes.id, 'Red Beans & Rice',            'Sides',    0, 'Authentic Louisiana red beans and rice'),
+    upsertMenuItem('item_pop_macaroni',       popeyes.id, 'Mac & Cheese',                'Sides',    1, 'Creamy macaroni and cheese'),
+  ])
+
+  await upsertPrices({
+    'item_pop_chickencombo':    { TALABAT: 36, DELIVEROO: 38, CAREEM: 37, KEETA: 33, NOON_FOOD: 35 },
+    'item_pop_spicycombo':      { TALABAT: 38, DELIVEROO: 40, CAREEM: 39, KEETA: 35, NOON_FOOD: 37 },
+    'item_pop_chickensandwich': { TALABAT: 32, DELIVEROO: 34, CAREEM: 33, KEETA: 29, NOON_FOOD: 31 },
+    'item_pop_tenders3':        { TALABAT: 30, DELIVEROO: 32, CAREEM: 31, KEETA: 27, NOON_FOOD: 29 },
+    'item_pop_redbeansrice':    { TALABAT: 14, DELIVEROO: 15, CAREEM: 14, KEETA: 12, NOON_FOOD: 13 },
+    'item_pop_macaroni':        { TALABAT: 13, DELIVEROO: 14, CAREEM: 13, KEETA: 11, NOON_FOOD: 12 },
+  })
+
+  await upsertPlatformLinks(popeyes.id, {
+    TALABAT:   { id: 'pop-talabat',   deep: 'https://www.talabat.com/uae/popeyes-jlt', web: 'https://www.talabat.com/uae/popeyes-jlt' },
+    DELIVEROO: { id: 'pop-deliveroo', deep: 'https://deliveroo.ae/menu/dubai/jlt/popeyes-jlt', web: 'https://deliveroo.ae/menu/dubai/jlt/popeyes-jlt' },
+    CAREEM:    { id: 'pop-careem',    deep: 'https://www.careem.com/en-ae/food/restaurant/popeyes-jlt', web: 'https://www.careem.com/en-ae/food/restaurant/popeyes-jlt' },
+    KEETA:     { id: 'pop-keeta',     deep: 'https://www.keeta.com/ae/restaurant/popeyes-jlt', web: 'https://www.keeta.com/ae/restaurant/popeyes-jlt' },
+    NOON_FOOD: { id: 'pop-noon',      deep: 'https://food.noon.com/ae/popeyes-jlt', web: 'https://food.noon.com/ae/popeyes-jlt' },
+  })
+
+  await upsertDeliveryFees(popeyes.id, {
+    TALABAT:   { baseFee: 6, serviceFeeFlat: 3, serviceFeePercent: 0, smallOrderThreshold: 30, smallOrderFee: 5, estimatedMinutes: 24 },
+    DELIVEROO: { baseFee: 8, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 35, smallOrderFee: 5, estimatedMinutes: 20 },
+    CAREEM:    { baseFee: 6, serviceFeeFlat: 4, serviceFeePercent: 0, smallOrderThreshold: 30, smallOrderFee: 4, estimatedMinutes: 27 },
+    KEETA:     { baseFee: 4, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 25, smallOrderFee: 3, estimatedMinutes: 33 },
+    NOON_FOOD: { baseFee: 5, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 30, smallOrderFee: 4, estimatedMinutes: 29 },
+  })
+
+  console.log('✓ Popeyes done')
+
+  // ─── TIM HORTONS (Business Bay) ──────────────────────────────────────────────
+
+  const timHortons = await prisma.restaurant.upsert({
+    where: { slug: 'tim-hortons-business-bay' },
+    update: {},
+    create: {
+      id: 'rest_timhortons_bb',
+      name: "Tim Hortons",
+      slug: 'tim-hortons-business-bay',
+      category: 'Cafe',
+      logoUrl: null,
+      lat: 25.1888,
+      lng: 55.2606,
+      address: 'Business Bay, Dubai',
+    },
+  })
+
+  await Promise.all([
+    upsertMenuItem('item_th_double_double',  timHortons.id, 'Double Double Coffee',      'Coffee',   0, 'Coffee with 2 creams and 2 sugars'),
+    upsertMenuItem('item_th_ice_capp',       timHortons.id, 'Iced Capp',                 'Coffee',   1, 'Blended iced cappuccino'),
+    upsertMenuItem('item_th_bagel',          timHortons.id, 'BLTA Bagel',                'Food',     0, 'Bacon, lettuce, tomato & avocado bagel'),
+    upsertMenuItem('item_th_wrap_grilled',   timHortons.id, 'Grilled Chicken Wrap',      'Food',     1, 'Grilled chicken with veggies in a wrap'),
+    upsertMenuItem('item_th_timbits12',      timHortons.id, '12 Timbits',                'Extras',   0, '12 bite-sized donut holes'),
+    upsertMenuItem('item_th_muffin',         timHortons.id, 'Blueberry Muffin',          'Extras',   1, 'Classic blueberry muffin'),
+  ])
+
+  await upsertPrices({
+    'item_th_double_double': { TALABAT: 18, DELIVEROO: 19, CAREEM: 18, KEETA: 16, NOON_FOOD: 17 },
+    'item_th_ice_capp':      { TALABAT: 22, DELIVEROO: 23, CAREEM: 22, KEETA: 20, NOON_FOOD: 21 },
+    'item_th_bagel':         { TALABAT: 29, DELIVEROO: 31, CAREEM: 30, KEETA: 26, NOON_FOOD: 28 },
+    'item_th_wrap_grilled':  { TALABAT: 31, DELIVEROO: 33, CAREEM: 32, KEETA: 28, NOON_FOOD: 30 },
+    'item_th_timbits12':     { TALABAT: 19, DELIVEROO: 20, CAREEM: 19, KEETA: 17, NOON_FOOD: 18 },
+    'item_th_muffin':        { TALABAT: 12, DELIVEROO: 13, CAREEM: 12, KEETA: 11, NOON_FOOD: 12 },
+  })
+
+  await upsertPlatformLinks(timHortons.id, {
+    TALABAT:   { id: 'th-talabat',   deep: 'https://www.talabat.com/uae/tim-hortons-business-bay', web: 'https://www.talabat.com/uae/tim-hortons-business-bay' },
+    DELIVEROO: { id: 'th-deliveroo', deep: 'https://deliveroo.ae/menu/dubai/business-bay/tim-hortons-business-bay', web: 'https://deliveroo.ae/menu/dubai/business-bay/tim-hortons-business-bay' },
+    CAREEM:    { id: 'th-careem',    deep: 'https://www.careem.com/en-ae/food/restaurant/tim-hortons-business-bay', web: 'https://www.careem.com/en-ae/food/restaurant/tim-hortons-business-bay' },
+    KEETA:     { id: 'th-keeta',     deep: 'https://www.keeta.com/ae/restaurant/tim-hortons-business-bay', web: 'https://www.keeta.com/ae/restaurant/tim-hortons-business-bay' },
+    NOON_FOOD: { id: 'th-noon',      deep: 'https://food.noon.com/ae/tim-hortons-business-bay', web: 'https://food.noon.com/ae/tim-hortons-business-bay' },
+  })
+
+  await upsertDeliveryFees(timHortons.id, {
+    TALABAT:   { baseFee: 6, serviceFeeFlat: 3, serviceFeePercent: 0, smallOrderThreshold: 30, smallOrderFee: 4, estimatedMinutes: 20 },
+    DELIVEROO: { baseFee: 7, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 35, smallOrderFee: 5, estimatedMinutes: 16 },
+    CAREEM:    { baseFee: 5, serviceFeeFlat: 3, serviceFeePercent: 0, smallOrderThreshold: 30, smallOrderFee: 4, estimatedMinutes: 23 },
+    KEETA:     { baseFee: 3, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 25, smallOrderFee: 3, estimatedMinutes: 28 },
+    NOON_FOOD: { baseFee: 4, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 30, smallOrderFee: 3, estimatedMinutes: 25 },
+  })
+
+  console.log('✓ Tim Hortons done')
+
+  // ─── FIVE GUYS (Dubai Mall area) ─────────────────────────────────────────────
+
+  const fiveGuys = await prisma.restaurant.upsert({
+    where: { slug: 'five-guys-dubai-mall' },
+    update: {},
+    create: {
+      id: 'rest_fiveguys_dm',
+      name: 'Five Guys',
+      slug: 'five-guys-dubai-mall',
+      category: 'Burgers',
+      logoUrl: null,
+      lat: 25.1977,
+      lng: 55.2797,
+      address: 'The Dubai Mall, Downtown Dubai',
+    },
+  })
+
+  await Promise.all([
+    upsertMenuItem('item_fg_hamburger',        fiveGuys.id, 'Hamburger',                  'Burgers',  0, 'Two beef patties, lettuce, tomato, all the way'),
+    upsertMenuItem('item_fg_cheeseburger',     fiveGuys.id, 'Cheeseburger',               'Burgers',  1, 'Two beef patties with cheese, all the way'),
+    upsertMenuItem('item_fg_baconburger',      fiveGuys.id, 'Bacon Burger',               'Burgers',  2, 'Two beef patties with crispy bacon'),
+    upsertMenuItem('item_fg_hotdog',           fiveGuys.id, 'Hot Dog',                    'Hot Dogs', 0, 'All-beef hot dog in a toasted bun'),
+    upsertMenuItem('item_fg_fries_regular',    fiveGuys.id, 'Regular Fries',              'Sides',    0, 'Boardwalk style fries cooked in peanut oil'),
+    upsertMenuItem('item_fg_milkshake',        fiveGuys.id, 'Milkshake',                  'Shakes',   0, 'Hand-spun milkshake in your choice of flavour'),
+  ])
+
+  await upsertPrices({
+    'item_fg_hamburger':     { TALABAT: 55, DELIVEROO: 58, CAREEM: 56, KEETA: 51, NOON_FOOD: 54 },
+    'item_fg_cheeseburger':  { TALABAT: 60, DELIVEROO: 63, CAREEM: 61, KEETA: 56, NOON_FOOD: 59 },
+    'item_fg_baconburger':   { TALABAT: 65, DELIVEROO: 68, CAREEM: 66, KEETA: 61, NOON_FOOD: 64 },
+    'item_fg_hotdog':        { TALABAT: 42, DELIVEROO: 44, CAREEM: 43, KEETA: 39, NOON_FOOD: 41 },
+    'item_fg_fries_regular': { TALABAT: 28, DELIVEROO: 30, CAREEM: 29, KEETA: 26, NOON_FOOD: 27 },
+    'item_fg_milkshake':     { TALABAT: 45, DELIVEROO: 47, CAREEM: 46, KEETA: 42, NOON_FOOD: 44 },
+  })
+
+  await upsertPlatformLinks(fiveGuys.id, {
+    TALABAT:   { id: 'fg-talabat',   deep: 'https://www.talabat.com/uae/five-guys-dubai-mall', web: 'https://www.talabat.com/uae/five-guys-dubai-mall' },
+    DELIVEROO: { id: 'fg-deliveroo', deep: 'https://deliveroo.ae/menu/dubai/downtown/five-guys-dubai-mall', web: 'https://deliveroo.ae/menu/dubai/downtown/five-guys-dubai-mall' },
+    CAREEM:    { id: 'fg-careem',    deep: 'https://www.careem.com/en-ae/food/restaurant/five-guys-dubai-mall', web: 'https://www.careem.com/en-ae/food/restaurant/five-guys-dubai-mall' },
+    KEETA:     { id: 'fg-keeta',     deep: 'https://www.keeta.com/ae/restaurant/five-guys-dubai-mall', web: 'https://www.keeta.com/ae/restaurant/five-guys-dubai-mall' },
+    NOON_FOOD: { id: 'fg-noon',      deep: 'https://food.noon.com/ae/five-guys-dubai-mall', web: 'https://food.noon.com/ae/five-guys-dubai-mall' },
+  })
+
+  await upsertDeliveryFees(fiveGuys.id, {
+    TALABAT:   { baseFee: 9,  serviceFeeFlat: 3, serviceFeePercent: 0, smallOrderThreshold: 50, smallOrderFee: 7, estimatedMinutes: 30 },
+    DELIVEROO: { baseFee: 10, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 55, smallOrderFee: 7, estimatedMinutes: 25 },
+    CAREEM:    { baseFee: 8,  serviceFeeFlat: 4, serviceFeePercent: 0, smallOrderThreshold: 50, smallOrderFee: 6, estimatedMinutes: 33 },
+    KEETA:     { baseFee: 6,  serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 45, smallOrderFee: 5, estimatedMinutes: 40 },
+    NOON_FOOD: { baseFee: 7,  serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 50, smallOrderFee: 6, estimatedMinutes: 35 },
+  })
+
+  console.log('✓ Five Guys done')
+
+  // ─── NANDOS (Jumeirah) ───────────────────────────────────────────────────────
+
+  const nandos = await prisma.restaurant.upsert({
+    where: { slug: 'nandos-jumeirah' },
+    update: {},
+    create: {
+      id: 'rest_nandos_jum',
+      name: "Nando's",
+      slug: 'nandos-jumeirah',
+      category: 'Chicken',
+      logoUrl: null,
+      lat: 25.2080,
+      lng: 55.2530,
+      address: 'Jumeirah 1, Dubai',
+    },
+  })
+
+  await Promise.all([
+    upsertMenuItem('item_nan_quartermeal',   nandos.id, '1/4 Chicken Meal',             'Meals',    0, 'PERi-PERi quarter chicken with side and roll'),
+    upsertMenuItem('item_nan_halfmeal',      nandos.id, '1/2 Chicken Meal',             'Meals',    1, 'PERi-PERi half chicken with side and roll'),
+    upsertMenuItem('item_nan_fullmeal',      nandos.id, 'Full Chicken Meal',             'Meals',    2, 'Whole PERi-PERi chicken with two sides'),
+    upsertMenuItem('item_nan_strip5',        nandos.id, '5 Chicken Strips',             'Starters', 0, 'Flame-grilled PERi-PERi chicken strips'),
+    upsertMenuItem('item_nan_bottomless',    nandos.id, 'Bottomless Froyo',             'Extras',   0, 'Bottomless frozen yoghurt'),
+    upsertMenuItem('item_nan_corn',          nandos.id, 'PERi-PERi Corn on the Cob',   'Sides',    0, 'Chargrilled corn with PERi-PERi butter'),
+  ])
+
+  await upsertPrices({
+    'item_nan_quartermeal': { TALABAT: 42, DELIVEROO: 44, CAREEM: 43, KEETA: 39, NOON_FOOD: 41 },
+    'item_nan_halfmeal':    { TALABAT: 59, DELIVEROO: 62, CAREEM: 60, KEETA: 55, NOON_FOOD: 58 },
+    'item_nan_fullmeal':    { TALABAT: 82, DELIVEROO: 86, CAREEM: 84, KEETA: 77, NOON_FOOD: 80 },
+    'item_nan_strip5':      { TALABAT: 38, DELIVEROO: 40, CAREEM: 39, KEETA: 35, NOON_FOOD: 37 },
+    'item_nan_bottomless':  { TALABAT: 19, DELIVEROO: 20, CAREEM: 19, KEETA: 17, NOON_FOOD: 18 },
+    'item_nan_corn':        { TALABAT: 14, DELIVEROO: 15, CAREEM: 14, KEETA: 12, NOON_FOOD: 13 },
+  })
+
+  await upsertPlatformLinks(nandos.id, {
+    TALABAT:   { id: 'nan-talabat',   deep: 'https://www.talabat.com/uae/nandos-jumeirah', web: 'https://www.talabat.com/uae/nandos-jumeirah' },
+    DELIVEROO: { id: 'nan-deliveroo', deep: 'https://deliveroo.ae/menu/dubai/jumeirah/nandos-jumeirah', web: 'https://deliveroo.ae/menu/dubai/jumeirah/nandos-jumeirah' },
+    CAREEM:    { id: 'nan-careem',    deep: 'https://www.careem.com/en-ae/food/restaurant/nandos-jumeirah', web: 'https://www.careem.com/en-ae/food/restaurant/nandos-jumeirah' },
+    KEETA:     { id: 'nan-keeta',     deep: 'https://www.keeta.com/ae/restaurant/nandos-jumeirah', web: 'https://www.keeta.com/ae/restaurant/nandos-jumeirah' },
+    NOON_FOOD: { id: 'nan-noon',      deep: 'https://food.noon.com/ae/nandos-jumeirah', web: 'https://food.noon.com/ae/nandos-jumeirah' },
+  })
+
+  await upsertDeliveryFees(nandos.id, {
+    TALABAT:   { baseFee: 7, serviceFeeFlat: 3, serviceFeePercent: 0, smallOrderThreshold: 35, smallOrderFee: 5, estimatedMinutes: 26 },
+    DELIVEROO: { baseFee: 9, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 40, smallOrderFee: 6, estimatedMinutes: 22 },
+    CAREEM:    { baseFee: 7, serviceFeeFlat: 4, serviceFeePercent: 0, smallOrderThreshold: 35, smallOrderFee: 5, estimatedMinutes: 29 },
+    KEETA:     { baseFee: 5, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 30, smallOrderFee: 4, estimatedMinutes: 36 },
+    NOON_FOOD: { baseFee: 6, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 35, smallOrderFee: 5, estimatedMinutes: 30 },
+  })
+
+  console.log("✓ Nando's done")
+
   // ─── PROMOTIONS ─────────────────────────────────────────────────────────────
 
   // Keeta often runs promotions to grow market share

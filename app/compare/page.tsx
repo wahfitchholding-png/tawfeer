@@ -62,7 +62,7 @@ async function ComparisonResults({
 function ComparisonSkeleton() {
   return (
     <div className="space-y-4">
-      {Array.from({ length: 4 }).map((_, i) => (
+      {Array.from({ length: 5 }).map((_, i) => (
         <div key={i} className="rounded-2xl border border-border p-5 space-y-4">
           <div className="flex justify-between">
             <Skeleton className="h-6 w-24" />
