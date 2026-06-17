@@ -1,0 +1,57 @@
+{
+  "name": "delivery-compare",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:studio": "prisma studio",
+    "collect": "tsx scripts/run-collectors.ts",
+    "collect:talabat": "tsx scripts/run-collectors.ts --platform=talabat",
+    "collect:deliveroo": "tsx scripts/run-collectors.ts --platform=deliveroo",
+    "collect:careem": "tsx scripts/run-collectors.ts --platform=careem",
+    "collect:keeta": "tsx scripts/run-collectors.ts --platform=keeta",
+    "capture": "tsx scripts/capture-credentials.ts",
+    "capture:talabat": "tsx scripts/capture-credentials.ts TALABAT",
+    "capture:deliveroo": "tsx scripts/capture-credentials.ts DELIVEROO",
+    "capture:careem": "tsx scripts/capture-credentials.ts CAREEM",
+    "capture:keeta": "tsx scripts/capture-credentials.ts KEETA",
+    "credentials": "tsx scripts/show-credentials.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "@radix-ui/react-slot": "^1.1.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.469.0",
+    "next": "15.3.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^2.6.0",
+    "zustand": "^5.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.0.1",
+    "playwright": "^1.50.0",
+    "postcss": "^8",
+    "prisma": "^5.22.0",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.19.2",
+    "typescript": "^5"
+  },
+  "allowScripts": {
+    "@prisma/client@5.22.0": true,
+    "@prisma/engines@5.22.0": true,
+    "esbuild@0.28.1": true,
+    "prisma@5.22.0": true,
+    "sharp@0.34.5": true
+  }
+}

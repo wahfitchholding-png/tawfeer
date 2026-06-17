@@ -1,0 +1,184 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Platform {
+  TALABAT
+  DELIVEROO
+  CAREEM
+  KEETA
+  NOON_FOOD
+}
+
+enum PromotionType {
+  PERCENTAGE_OFF
+  FLAT_OFF
+  FREE_DELIVERY
+  BOGO
+}
+
+model Restaurant {
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique
+  category      String
+  logoUrl       String?
+  lat           Float
+  lng           Float
+  address       String?
+  isActive      Boolean  @default(true)
+  menuItems     MenuItem[]
+  platformLinks PlatformRestaurantLink[]
+  deliveryFees  DeliveryFee[]
+  promotions    Promotion[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model MenuItem {
+  id             String   @id @default(cuid())
+  restaurantId   String
+  restaurant     Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  name           String
+  description    String?
+  imageUrl       String?
+  category       String?
+  isAvailable    Boolean  @default(true)
+  sortOrder      Int      @default(0)
+  platformPrices PlatformPrice[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([restaurantId])
+}
+
+model PlatformRestaurantLink {
+  id                   String   @id @default(cuid())
+  restaurantId         String
+  restaurant           Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  platform             Platform
+  platformRestaurantId String
+  deepLinkUrl          String
+  webUrl               String?
+  isAvailable          Boolean  @default(true)
+  updatedAt            DateTime @updatedAt
+
+  @@unique([restaurantId, platform])
+  @@index([restaurantId])
+}
+
+model PlatformPrice {
+  id            String   @id @default(cuid())
+  menuItemId    String
+  menuItem      MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  platform      Platform
+  price         Float
+  originalPrice Float?
+  isAvailable   Boolean  @default(true)
+  updatedAt     DateTime @updatedAt
+
+  @@unique([menuItemId, platform])
+  @@index([menuItemId])
+}
+
+model DeliveryFee {
+  id                    String     @id @default(cuid())
+  platform              Platform
+  restaurantId          String
+  restaurant            Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  baseFee               Float
+  serviceFeePercent     Float      @default(0)
+  serviceFeeFlat        Float      @default(0)
+  smallOrderThreshold   Float?
+  smallOrderFee         Float?
+  freeDeliveryThreshold Float?
+  estimatedMinutes      Int
+  updatedAt             DateTime   @updatedAt
+
+  @@unique([platform, restaurantId])
+  @@index([restaurantId])
+}
+
+model Promotion {
+  id           String        @id @default(cuid())
+  platform     Platform
+  restaurantId String?
+  restaurant   Restaurant?   @relation(fields: [restaurantId], references: [id], onDelete: SetNull)
+  type         PromotionType
+  value        Float
+  minOrder     Float?
+  maxDiscount  Float?
+  description  String
+  code         String?
+  validUntil   DateTime?
+  isActive     Boolean       @default(true)
+  updatedAt    DateTime      @updatedAt
+
+  @@index([platform, restaurantId])
+}
+
+model User {
+  id               String       @id @default(cuid())
+  email            String?      @unique
+  lat              Float?
+  lng              Float?
+  hasTalabatPro    Boolean      @default(false)
+  hasDeliverooPlus Boolean      @default(false)
+  hasCareemPlus    Boolean      @default(false)
+  savedOrders      SavedOrder[]
+  createdAt        DateTime     @default(now())
+}
+
+model SavedOrder {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  restaurantId String
+  name         String
+  items        Json
+  createdAt    DateTime @default(now())
+}
+
+model CollectorLog {
+  id           String   @id @default(cuid())
+  platform     Platform
+  restaurantId String?
+  status       String
+  itemsUpdated Int      @default(0)
+  errorMessage String?
+  durationMs   Int?
+  createdAt    DateTime @default(now())
+}
+
+model PlatformCredential {
+  id         String    @id @default(cuid())
+  platform   Platform
+  key        String
+  value      String    @db.Text
+  expiresAt  DateTime?
+  capturedAt DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@unique([platform, key])
+  @@index([platform])
+}
+
+model DiscoveredEndpoint {
+  id           String   @id @default(cuid())
+  platform     Platform
+  slug         String
+  endpointType String
+  url          String   @db.Text
+  method       String   @default("GET")
+  sampleResponse String? @db.Text
+  capturedAt   DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([platform, slug, endpointType])
+  @@index([platform])
+}
