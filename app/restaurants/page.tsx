@@ -40,7 +40,7 @@ async function RestaurantList({ lat, lng, q }: { lat: number; lng: number; q?: s
       distance: haversineDistance(lat, lng, r.lat, r.lng),
       availableOn: r.platformLinks.map(l => l.platform as Platform),
     }))
-    .filter(r => r.distance <= 10)
+    .filter(r => r.distance <= 5)
     .sort((a, b) => a.distance - b.distance)
 
   if (nearby.length === 0) {

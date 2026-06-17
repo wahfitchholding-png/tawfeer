@@ -79,9 +79,9 @@ export const PLATFORM_META: Record<Platform, {
   },
   KEETA: {
     label: 'Keeta',
-    primaryColor: '#E41E2B',
-    bgColor: '#FDEAEA',
-    textColor: '#B51520',
+    primaryColor: '#1A1A1A',
+    bgColor: '#FFF8D6',
+    textColor: '#1A1A1A',
     appScheme: 'keeta',
   },
   NOON_FOOD: {
@@ -93,4 +93,4 @@ export const PLATFORM_META: Record<Platform, {
   },
 }
 
-export const ACTIVE_PLATFORMS: Platform[] = ['TALABAT', 'DELIVEROO', 'CAREEM', 'KEETA']
+export const ACTIVE_PLATFORMS: Platform[] = ['TALABAT', 'DELIVEROO', 'CAREEM', 'KEETA', 'NOON_FOOD']

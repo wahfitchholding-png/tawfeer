@@ -67,16 +67,20 @@ export function RestaurantCard({ restaurant, lat, lng }: Props) {
                 )}
               </div>
 
-              <div className="flex items-center gap-1 mt-2">
-                {restaurant.availableOn.slice(0, 4).map((platform: Platform) => (
+              <div className="flex items-center gap-1 mt-2 flex-wrap">
+                {restaurant.availableOn.map((platform: Platform) => (
                   <span
                     key={platform}
-                    className="text-xs px-1.5 py-0.5 rounded-md font-medium"
+                    className="text-xs px-1.5 py-0.5 rounded-md font-medium flex items-center gap-1"
                     style={{
                       backgroundColor: PLATFORM_META[platform].bgColor,
                       color: PLATFORM_META[platform].textColor,
                     }}
                   >
+                    <span
+                      className="w-1.5 h-1.5 rounded-full shrink-0"
+                      style={{ backgroundColor: PLATFORM_META[platform].primaryColor }}
+                    />
                     {PLATFORM_META[platform].label}
                   </span>
                 ))}

@@ -100,17 +100,17 @@ async function main() {
   ])
 
   // Prices per platform (AED) — realistic Dubai pricing
-  const mcPrices: Record<string, { TALABAT: number; DELIVEROO: number; CAREEM: number; KEETA: number }> = {
-    'item_mc_bigmacmeal':    { TALABAT: 38, DELIVEROO: 40, CAREEM: 39, KEETA: 35 },
-    'item_mc_mcchickenmeal': { TALABAT: 33, DELIVEROO: 35, CAREEM: 34, KEETA: 30 },
-    'item_mc_quartermeal':   { TALABAT: 42, DELIVEROO: 44, CAREEM: 43, KEETA: 39 },
-    'item_mc_filetofish':    { TALABAT: 36, DELIVEROO: 38, CAREEM: 37, KEETA: 33 },
-    'item_mc_nuggets6':      { TALABAT: 22, DELIVEROO: 23, CAREEM: 22, KEETA: 20 },
-    'item_mc_nuggets9':      { TALABAT: 30, DELIVEROO: 32, CAREEM: 31, KEETA: 28 },
-    'item_mc_mcflurry':      { TALABAT: 18, DELIVEROO: 19, CAREEM: 18, KEETA: 16 },
-    'item_mc_applepie':      { TALABAT: 10, DELIVEROO: 11, CAREEM: 10, KEETA: 9  },
-    'item_mc_bigmac':        { TALABAT: 26, DELIVEROO: 27, CAREEM: 26, KEETA: 24 },
-    'item_mc_fries_large':   { TALABAT: 12, DELIVEROO: 13, CAREEM: 12, KEETA: 11 },
+  const mcPrices: Record<string, { TALABAT: number; DELIVEROO: number; CAREEM: number; KEETA: number; NOON_FOOD: number }> = {
+    'item_mc_bigmacmeal':    { TALABAT: 38, DELIVEROO: 40, CAREEM: 39, KEETA: 35, NOON_FOOD: 37 },
+    'item_mc_mcchickenmeal': { TALABAT: 33, DELIVEROO: 35, CAREEM: 34, KEETA: 30, NOON_FOOD: 32 },
+    'item_mc_quartermeal':   { TALABAT: 42, DELIVEROO: 44, CAREEM: 43, KEETA: 39, NOON_FOOD: 41 },
+    'item_mc_filetofish':    { TALABAT: 36, DELIVEROO: 38, CAREEM: 37, KEETA: 33, NOON_FOOD: 35 },
+    'item_mc_nuggets6':      { TALABAT: 22, DELIVEROO: 23, CAREEM: 22, KEETA: 20, NOON_FOOD: 21 },
+    'item_mc_nuggets9':      { TALABAT: 30, DELIVEROO: 32, CAREEM: 31, KEETA: 28, NOON_FOOD: 29 },
+    'item_mc_mcflurry':      { TALABAT: 18, DELIVEROO: 19, CAREEM: 18, KEETA: 16, NOON_FOOD: 17 },
+    'item_mc_applepie':      { TALABAT: 10, DELIVEROO: 11, CAREEM: 10, KEETA: 9,  NOON_FOOD: 10 },
+    'item_mc_bigmac':        { TALABAT: 26, DELIVEROO: 27, CAREEM: 26, KEETA: 24, NOON_FOOD: 25 },
+    'item_mc_fries_large':   { TALABAT: 12, DELIVEROO: 13, CAREEM: 12, KEETA: 11, NOON_FOOD: 12 },
   }
 
   await upsertPrices(mcPrices)
@@ -122,6 +122,7 @@ async function main() {
     DELIVEROO: { id: 'mc-deliveroo', deep: 'https://deliveroo.ae/menu/dubai/dubai-marina/mcdonald-s-marina',                 web: 'https://deliveroo.ae/menu/dubai/dubai-marina/mcdonald-s-marina' },
     CAREEM:    { id: 'mc-careem',    deep: 'https://www.careem.com/en-ae/food/restaurant/mcdonalds-dubai-marina',            web: 'https://www.careem.com/en-ae/food/restaurant/mcdonalds-dubai-marina' },
     KEETA:     { id: 'mc-keeta',     deep: 'https://www.keeta.com/ae/restaurant/mcdonalds-dubai-marina',                    web: 'https://www.keeta.com/ae/restaurant/mcdonalds-dubai-marina' },
+    NOON_FOOD: { id: 'mc-noon',      deep: 'https://food.noon.com/ae/mcdonalds-dubai-marina',                               web: 'https://food.noon.com/ae/mcdonalds-dubai-marina' },
   })
 
   await upsertDeliveryFees(mcdonalds.id, {
@@ -129,6 +130,7 @@ async function main() {
     DELIVEROO: { baseFee: 8, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 35, smallOrderFee: 6, estimatedMinutes: 20 },
     CAREEM:    { baseFee: 6, serviceFeeFlat: 4, serviceFeePercent: 0, smallOrderThreshold: 30, smallOrderFee: 5, estimatedMinutes: 28 },
     KEETA:     { baseFee: 4, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 25, smallOrderFee: 3, estimatedMinutes: 35 },
+    NOON_FOOD: { baseFee: 5, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 30, smallOrderFee: 4, estimatedMinutes: 30 },
   })
 
   console.log("✓ McDonald's done")
@@ -146,15 +148,15 @@ async function main() {
     upsertMenuItem('item_kfc_cheesemelt',  kfc.id, "Cheese Melt Burger",    "Burgers",  0, "Crispy chicken with melted cheese sauce"),
   ])
 
-  const kfcPrices: Record<string, { TALABAT: number; DELIVEROO: number; CAREEM: number; KEETA: number }> = {
-    'item_kfc_zingermeal':  { TALABAT: 38, DELIVEROO: 40, CAREEM: 39, KEETA: 36 },
-    'item_kfc_crunchmeal':  { TALABAT: 34, DELIVEROO: 36, CAREEM: 35, KEETA: 32 },
-    'item_kfc_hotshots':    { TALABAT: 20, DELIVEROO: 22, CAREEM: 21, KEETA: 18 },
-    'item_kfc_wings6':      { TALABAT: 25, DELIVEROO: 27, CAREEM: 26, KEETA: 23 },
-    'item_kfc_bucket9':     { TALABAT: 62, DELIVEROO: 65, CAREEM: 63, KEETA: 58 },
-    'item_kfc_twister':     { TALABAT: 28, DELIVEROO: 30, CAREEM: 29, KEETA: 26 },
-    'item_kfc_coleslaw':    { TALABAT: 11, DELIVEROO: 12, CAREEM: 11, KEETA: 10 },
-    'item_kfc_cheesemelt':  { TALABAT: 32, DELIVEROO: 34, CAREEM: 33, KEETA: 30 },
+  const kfcPrices: Record<string, { TALABAT: number; DELIVEROO: number; CAREEM: number; KEETA: number; NOON_FOOD: number }> = {
+    'item_kfc_zingermeal':  { TALABAT: 38, DELIVEROO: 40, CAREEM: 39, KEETA: 36, NOON_FOOD: 37 },
+    'item_kfc_crunchmeal':  { TALABAT: 34, DELIVEROO: 36, CAREEM: 35, KEETA: 32, NOON_FOOD: 33 },
+    'item_kfc_hotshots':    { TALABAT: 20, DELIVEROO: 22, CAREEM: 21, KEETA: 18, NOON_FOOD: 19 },
+    'item_kfc_wings6':      { TALABAT: 25, DELIVEROO: 27, CAREEM: 26, KEETA: 23, NOON_FOOD: 24 },
+    'item_kfc_bucket9':     { TALABAT: 62, DELIVEROO: 65, CAREEM: 63, KEETA: 58, NOON_FOOD: 61 },
+    'item_kfc_twister':     { TALABAT: 28, DELIVEROO: 30, CAREEM: 29, KEETA: 26, NOON_FOOD: 27 },
+    'item_kfc_coleslaw':    { TALABAT: 11, DELIVEROO: 12, CAREEM: 11, KEETA: 10, NOON_FOOD: 11 },
+    'item_kfc_cheesemelt':  { TALABAT: 32, DELIVEROO: 34, CAREEM: 33, KEETA: 30, NOON_FOOD: 31 },
   }
 
   await upsertPrices(kfcPrices)
@@ -164,6 +166,7 @@ async function main() {
     DELIVEROO: { id: 'kfc-deliveroo', deep: 'https://deliveroo.ae/menu/dubai/jbr/kfc-jbr',                 web: 'https://deliveroo.ae/menu/dubai/jbr/kfc-jbr' },
     CAREEM:    { id: 'kfc-careem',    deep: 'https://www.careem.com/en-ae/food/restaurant/kfc-dubai-marina', web: 'https://www.careem.com/en-ae/food/restaurant/kfc-dubai-marina' },
     KEETA:     { id: 'kfc-keeta',     deep: 'https://www.keeta.com/ae/restaurant/kfc-dubai-marina',         web: 'https://www.keeta.com/ae/restaurant/kfc-dubai-marina' },
+    NOON_FOOD: { id: 'kfc-noon',      deep: 'https://food.noon.com/ae/kfc-dubai-marina',                    web: 'https://food.noon.com/ae/kfc-dubai-marina' },
   })
 
   await upsertDeliveryFees(kfc.id, {
@@ -171,6 +174,7 @@ async function main() {
     DELIVEROO: { baseFee: 9,  serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 35, smallOrderFee: 6, estimatedMinutes: 19 },
     CAREEM:    { baseFee: 6,  serviceFeeFlat: 4, serviceFeePercent: 0, smallOrderThreshold: 30, smallOrderFee: 5, estimatedMinutes: 26 },
     KEETA:     { baseFee: 4,  serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 25, smallOrderFee: 3, estimatedMinutes: 32 },
+    NOON_FOOD: { baseFee: 5,  serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 30, smallOrderFee: 4, estimatedMinutes: 28 },
   })
 
   console.log('✓ KFC done')
@@ -187,14 +191,14 @@ async function main() {
     upsertMenuItem('item_bk_milkshake',    burgerKing.id, "Chocolate Milkshake",   "Drinks",   0, "Thick and creamy chocolate shake"),
   ])
 
-  const bkPrices: Record<string, { TALABAT: number; DELIVEROO: number; CAREEM: number; KEETA: number }> = {
-    'item_bk_whoppermeal':    { TALABAT: 40, DELIVEROO: 42, CAREEM: 41, KEETA: 37 },
-    'item_bk_dblwhoppermeal': { TALABAT: 51, DELIVEROO: 53, CAREEM: 52, KEETA: 47 },
-    'item_bk_royalemeal':     { TALABAT: 37, DELIVEROO: 39, CAREEM: 38, KEETA: 34 },
-    'item_bk_whopper':        { TALABAT: 27, DELIVEROO: 29, CAREEM: 28, KEETA: 25 },
-    'item_bk_onionrings':     { TALABAT: 16, DELIVEROO: 17, CAREEM: 16, KEETA: 14 },
-    'item_bk_cheesytots':     { TALABAT: 13, DELIVEROO: 14, CAREEM: 13, KEETA: 12 },
-    'item_bk_milkshake':      { TALABAT: 18, DELIVEROO: 19, CAREEM: 18, KEETA: 16 },
+  const bkPrices: Record<string, { TALABAT: number; DELIVEROO: number; CAREEM: number; KEETA: number; NOON_FOOD: number }> = {
+    'item_bk_whoppermeal':    { TALABAT: 40, DELIVEROO: 42, CAREEM: 41, KEETA: 37, NOON_FOOD: 39 },
+    'item_bk_dblwhoppermeal': { TALABAT: 51, DELIVEROO: 53, CAREEM: 52, KEETA: 47, NOON_FOOD: 50 },
+    'item_bk_royalemeal':     { TALABAT: 37, DELIVEROO: 39, CAREEM: 38, KEETA: 34, NOON_FOOD: 36 },
+    'item_bk_whopper':        { TALABAT: 27, DELIVEROO: 29, CAREEM: 28, KEETA: 25, NOON_FOOD: 26 },
+    'item_bk_onionrings':     { TALABAT: 16, DELIVEROO: 17, CAREEM: 16, KEETA: 14, NOON_FOOD: 15 },
+    'item_bk_cheesytots':     { TALABAT: 13, DELIVEROO: 14, CAREEM: 13, KEETA: 12, NOON_FOOD: 13 },
+    'item_bk_milkshake':      { TALABAT: 18, DELIVEROO: 19, CAREEM: 18, KEETA: 16, NOON_FOOD: 17 },
   }
 
   await upsertPrices(bkPrices)
@@ -204,6 +208,7 @@ async function main() {
     DELIVEROO: { id: 'bk-deliveroo', deep: 'https://deliveroo.ae/menu/dubai/dubai-marina/burger-king-marina',  web: 'https://deliveroo.ae/menu/dubai/dubai-marina/burger-king-marina' },
     CAREEM:    { id: 'bk-careem',    deep: 'https://www.careem.com/en-ae/food/restaurant/burger-king-marina',  web: 'https://www.careem.com/en-ae/food/restaurant/burger-king-marina' },
     KEETA:     { id: 'bk-keeta',     deep: 'https://www.keeta.com/ae/restaurant/burger-king-marina',           web: 'https://www.keeta.com/ae/restaurant/burger-king-marina' },
+    NOON_FOOD: { id: 'bk-noon',      deep: 'https://food.noon.com/ae/burger-king-dubai-marina',                web: 'https://food.noon.com/ae/burger-king-dubai-marina' },
   })
 
   await upsertDeliveryFees(burgerKing.id, {
@@ -211,6 +216,7 @@ async function main() {
     DELIVEROO: { baseFee: 8,  serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 35, smallOrderFee: 6, estimatedMinutes: 18 },
     CAREEM:    { baseFee: 7,  serviceFeeFlat: 4, serviceFeePercent: 0, smallOrderThreshold: 30, smallOrderFee: 5, estimatedMinutes: 27 },
     KEETA:     { baseFee: 3,  serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 25, smallOrderFee: 3, estimatedMinutes: 33 },
+    NOON_FOOD: { baseFee: 5,  serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 30, smallOrderFee: 4, estimatedMinutes: 29 },
   })
 
   console.log('✓ Burger King done')
@@ -226,13 +232,13 @@ async function main() {
     upsertMenuItem('item_hd_milkshake',       hardees.id, "Hand-Scooped Milkshake",      "Drinks",   0, "Real ice cream milkshake"),
   ])
 
-  const hdPrices: Record<string, { TALABAT: number; DELIVEROO: number; CAREEM: number; KEETA: number }> = {
-    'item_hd_thickburgermeal': { TALABAT: 42, DELIVEROO: 44, CAREEM: 43, KEETA: 39 },
-    'item_hd_chickenmeal':     { TALABAT: 36, DELIVEROO: 38, CAREEM: 37, KEETA: 33 },
-    'item_hd_mushroom':        { TALABAT: 29, DELIVEROO: 31, CAREEM: 30, KEETA: 27 },
-    'item_hd_naturalscut':     { TALABAT: 13, DELIVEROO: 14, CAREEM: 13, KEETA: 12 },
-    'item_hd_onionrings':      { TALABAT: 15, DELIVEROO: 16, CAREEM: 15, KEETA: 13 },
-    'item_hd_milkshake':       { TALABAT: 22, DELIVEROO: 24, CAREEM: 23, KEETA: 20 },
+  const hdPrices: Record<string, { TALABAT: number; DELIVEROO: number; CAREEM: number; KEETA: number; NOON_FOOD: number }> = {
+    'item_hd_thickburgermeal': { TALABAT: 42, DELIVEROO: 44, CAREEM: 43, KEETA: 39, NOON_FOOD: 41 },
+    'item_hd_chickenmeal':     { TALABAT: 36, DELIVEROO: 38, CAREEM: 37, KEETA: 33, NOON_FOOD: 35 },
+    'item_hd_mushroom':        { TALABAT: 29, DELIVEROO: 31, CAREEM: 30, KEETA: 27, NOON_FOOD: 28 },
+    'item_hd_naturalscut':     { TALABAT: 13, DELIVEROO: 14, CAREEM: 13, KEETA: 12, NOON_FOOD: 13 },
+    'item_hd_onionrings':      { TALABAT: 15, DELIVEROO: 16, CAREEM: 15, KEETA: 13, NOON_FOOD: 14 },
+    'item_hd_milkshake':       { TALABAT: 22, DELIVEROO: 24, CAREEM: 23, KEETA: 20, NOON_FOOD: 21 },
   }
 
   await upsertPrices(hdPrices)
@@ -242,6 +248,7 @@ async function main() {
     DELIVEROO: { id: 'hd-deliveroo', deep: 'https://deliveroo.ae/menu/dubai/dubai-marina/hardees-marina',  web: 'https://deliveroo.ae/menu/dubai/dubai-marina/hardees-marina' },
     CAREEM:    { id: 'hd-careem',    deep: 'https://www.careem.com/en-ae/food/restaurant/hardees-marina',  web: 'https://www.careem.com/en-ae/food/restaurant/hardees-marina' },
     KEETA:     { id: 'hd-keeta',     deep: 'https://www.keeta.com/ae/restaurant/hardees-marina',           web: 'https://www.keeta.com/ae/restaurant/hardees-marina' },
+    NOON_FOOD: { id: 'hd-noon',      deep: 'https://food.noon.com/ae/hardees-dubai-marina',                web: 'https://food.noon.com/ae/hardees-dubai-marina' },
   })
 
   await upsertDeliveryFees(hardees.id, {
@@ -249,6 +256,7 @@ async function main() {
     DELIVEROO: { baseFee: 9,  serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 35, smallOrderFee: 6, estimatedMinutes: 21 },
     CAREEM:    { baseFee: 6,  serviceFeeFlat: 4, serviceFeePercent: 0, smallOrderThreshold: 30, smallOrderFee: 5, estimatedMinutes: 29 },
     KEETA:     { baseFee: 4,  serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 25, smallOrderFee: 3, estimatedMinutes: 36 },
+    NOON_FOOD: { baseFee: 5,  serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 30, smallOrderFee: 4, estimatedMinutes: 31 },
   })
 
   console.log("✓ Hardee's done")
@@ -266,15 +274,15 @@ async function main() {
     upsertMenuItem('item_ph_pasta',        pizzaHut.id, "Pasta Bolognese",          "Pasta",    0, "Rich beef bolognese with pasta"),
   ])
 
-  const phPrices: Record<string, { TALABAT: number; DELIVEROO: number; CAREEM: number; KEETA: number }> = {
-    'item_ph_pepperoni_m':  { TALABAT: 55,  DELIVEROO: 58,  CAREEM: 56,  KEETA: 52  },
-    'item_ph_pepperoni_l':  { TALABAT: 75,  DELIVEROO: 79,  CAREEM: 77,  KEETA: 70  },
-    'item_ph_bbqchicken_m': { TALABAT: 57,  DELIVEROO: 60,  CAREEM: 58,  KEETA: 53  },
-    'item_ph_bbqchicken_l': { TALABAT: 78,  DELIVEROO: 82,  CAREEM: 80,  KEETA: 73  },
-    'item_ph_stuffedcrust': { TALABAT: 85,  DELIVEROO: 89,  CAREEM: 87,  KEETA: 80  },
-    'item_ph_garlic':       { TALABAT: 18,  DELIVEROO: 19,  CAREEM: 18,  KEETA: 16  },
-    'item_ph_wings6':       { TALABAT: 28,  DELIVEROO: 30,  CAREEM: 29,  KEETA: 26  },
-    'item_ph_pasta':        { TALABAT: 32,  DELIVEROO: 34,  CAREEM: 33,  KEETA: 30  },
+  const phPrices: Record<string, { TALABAT: number; DELIVEROO: number; CAREEM: number; KEETA: number; NOON_FOOD: number }> = {
+    'item_ph_pepperoni_m':  { TALABAT: 55,  DELIVEROO: 58,  CAREEM: 56,  KEETA: 52,  NOON_FOOD: 54  },
+    'item_ph_pepperoni_l':  { TALABAT: 75,  DELIVEROO: 79,  CAREEM: 77,  KEETA: 70,  NOON_FOOD: 73  },
+    'item_ph_bbqchicken_m': { TALABAT: 57,  DELIVEROO: 60,  CAREEM: 58,  KEETA: 53,  NOON_FOOD: 56  },
+    'item_ph_bbqchicken_l': { TALABAT: 78,  DELIVEROO: 82,  CAREEM: 80,  KEETA: 73,  NOON_FOOD: 76  },
+    'item_ph_stuffedcrust': { TALABAT: 85,  DELIVEROO: 89,  CAREEM: 87,  KEETA: 80,  NOON_FOOD: 83  },
+    'item_ph_garlic':       { TALABAT: 18,  DELIVEROO: 19,  CAREEM: 18,  KEETA: 16,  NOON_FOOD: 17  },
+    'item_ph_wings6':       { TALABAT: 28,  DELIVEROO: 30,  CAREEM: 29,  KEETA: 26,  NOON_FOOD: 27  },
+    'item_ph_pasta':        { TALABAT: 32,  DELIVEROO: 34,  CAREEM: 33,  KEETA: 30,  NOON_FOOD: 31  },
   }
 
   await upsertPrices(phPrices)
@@ -284,6 +292,7 @@ async function main() {
     DELIVEROO: { id: 'ph-deliveroo', deep: 'https://deliveroo.ae/menu/dubai/jbr/pizza-hut-jbr',            web: 'https://deliveroo.ae/menu/dubai/jbr/pizza-hut-jbr' },
     CAREEM:    { id: 'ph-careem',    deep: 'https://www.careem.com/en-ae/food/restaurant/pizza-hut-jbr',   web: 'https://www.careem.com/en-ae/food/restaurant/pizza-hut-jbr' },
     KEETA:     { id: 'ph-keeta',     deep: 'https://www.keeta.com/ae/restaurant/pizza-hut-jbr',            web: 'https://www.keeta.com/ae/restaurant/pizza-hut-jbr' },
+    NOON_FOOD: { id: 'ph-noon',      deep: 'https://food.noon.com/ae/pizza-hut-jbr',                       web: 'https://food.noon.com/ae/pizza-hut-jbr' },
   })
 
   await upsertDeliveryFees(pizzaHut.id, {
@@ -291,6 +300,7 @@ async function main() {
     DELIVEROO: { baseFee: 10, serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 55, smallOrderFee: 8, estimatedMinutes: 30 },
     CAREEM:    { baseFee: 7,  serviceFeeFlat: 4, serviceFeePercent: 0, smallOrderThreshold: 50, smallOrderFee: 7, estimatedMinutes: 38 },
     KEETA:     { baseFee: 5,  serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 40, smallOrderFee: 5, estimatedMinutes: 42 },
+    NOON_FOOD: { baseFee: 6,  serviceFeeFlat: 2, serviceFeePercent: 0, smallOrderThreshold: 45, smallOrderFee: 6, estimatedMinutes: 35 },
   })
 
   console.log('✓ Pizza Hut done')
@@ -354,9 +364,9 @@ async function upsertMenuItem(
 }
 
 async function upsertPrices(
-  priceMap: Record<string, { TALABAT: number; DELIVEROO: number; CAREEM: number; KEETA: number }>
+  priceMap: Record<string, { TALABAT: number; DELIVEROO: number; CAREEM: number; KEETA: number; NOON_FOOD: number }>
 ) {
-  const platforms = ['TALABAT', 'DELIVEROO', 'CAREEM', 'KEETA'] as const
+  const platforms = ['TALABAT', 'DELIVEROO', 'CAREEM', 'KEETA', 'NOON_FOOD'] as const
   for (const [menuItemId, prices] of Object.entries(priceMap)) {
     for (const platform of platforms) {
       await prisma.platformPrice.upsert({
@@ -374,11 +384,11 @@ async function upsertPlatformLinks(
 ) {
   for (const [platform, link] of Object.entries(links)) {
     await prisma.platformRestaurantLink.upsert({
-      where: { restaurantId_platform: { restaurantId, platform: platform as 'TALABAT' | 'DELIVEROO' | 'CAREEM' | 'KEETA' } },
+      where: { restaurantId_platform: { restaurantId, platform: platform as 'TALABAT' | 'DELIVEROO' | 'CAREEM' | 'KEETA' | 'NOON_FOOD' } },
       update: { deepLinkUrl: link.deep, webUrl: link.web, platformRestaurantId: link.id, updatedAt: new Date() },
       create: {
         restaurantId,
-        platform: platform as 'TALABAT' | 'DELIVEROO' | 'CAREEM' | 'KEETA',
+        platform: platform as 'TALABAT' | 'DELIVEROO' | 'CAREEM' | 'KEETA' | 'NOON_FOOD',
         platformRestaurantId: link.id,
         deepLinkUrl: link.deep,
         webUrl: link.web,
@@ -401,9 +411,9 @@ async function upsertDeliveryFees(
 ) {
   for (const [platform, fee] of Object.entries(fees)) {
     await prisma.deliveryFee.upsert({
-      where: { platform_restaurantId: { platform: platform as 'TALABAT' | 'DELIVEROO' | 'CAREEM' | 'KEETA', restaurantId } },
+      where: { platform_restaurantId: { platform: platform as 'TALABAT' | 'DELIVEROO' | 'CAREEM' | 'KEETA' | 'NOON_FOOD', restaurantId } },
       update: { ...fee, updatedAt: new Date() },
-      create: { platform: platform as 'TALABAT' | 'DELIVEROO' | 'CAREEM' | 'KEETA', restaurantId, ...fee, updatedAt: new Date() },
+      create: { platform: platform as 'TALABAT' | 'DELIVEROO' | 'CAREEM' | 'KEETA' | 'NOON_FOOD', restaurantId, ...fee, updatedAt: new Date() },
     })
   }
 }
