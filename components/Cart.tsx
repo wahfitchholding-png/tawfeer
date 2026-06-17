@@ -5,6 +5,7 @@ import { ShoppingBag, ArrowRight, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useCartStore } from '@/store/cartStore'
 import { formatAED } from '@/lib/utils'
+import { useMemberships } from '@/hooks/useMemberships'
 
 interface Props {
   lat: number
@@ -14,6 +15,7 @@ interface Props {
 export function Cart({ lat, lng }: Props) {
   const { items, restaurantId, removeItem, updateQuantity, clearCart } = useCartStore()
   const router = useRouter()
+  const { toParam } = useMemberships()
 
   if (items.length === 0) return null
 
@@ -27,6 +29,8 @@ export function Cart({ lat, lng }: Props) {
       lng: String(lng),
       cart: JSON.stringify(items.map(i => ({ menuItemId: i.menuItemId, name: i.name, quantity: i.quantity }))),
     })
+    const memberParam = toParam()
+    if (memberParam) params.set('members', memberParam)
     router.push(`/compare?${params}`)
   }
 

@@ -24,6 +24,7 @@ export interface PlatformResult {
   estimatedMinutes: number
   deepLinkUrl: string
   savings?: number
+  isMember?: boolean
 }
 
 export interface RestaurantSummary {
@@ -55,6 +56,7 @@ export const PLATFORM_META: Record<Platform, {
   bgColor: string
   textColor: string
   appScheme: string
+  membership: { label: string; price: string; perk: string } | null
 }> = {
   TALABAT: {
     label: 'Talabat',
@@ -62,6 +64,7 @@ export const PLATFORM_META: Record<Platform, {
     bgColor: '#FFF3EB',
     textColor: '#CC5500',
     appScheme: 'talabat',
+    membership: { label: 'Talabat Pro', price: 'AED 99/mo', perk: 'Free delivery on all orders' },
   },
   DELIVEROO: {
     label: 'Deliveroo',
@@ -69,6 +72,7 @@ export const PLATFORM_META: Record<Platform, {
     bgColor: '#E6FAF9',
     textColor: '#008C80',
     appScheme: 'deliveroo',
+    membership: { label: 'Deliveroo Plus', price: 'AED 35/mo', perk: 'Free delivery on all orders' },
   },
   CAREEM: {
     label: 'Careem',
@@ -76,6 +80,7 @@ export const PLATFORM_META: Record<Platform, {
     bgColor: '#E8FFF3',
     textColor: '#168A52',
     appScheme: 'careem',
+    membership: { label: 'Careem Plus', price: 'AED 75/mo', perk: 'Free delivery + exclusive offers' },
   },
   KEETA: {
     label: 'Keeta',
@@ -83,6 +88,7 @@ export const PLATFORM_META: Record<Platform, {
     bgColor: '#FFF8D6',
     textColor: '#1A1A1A',
     appScheme: 'keeta',
+    membership: null,
   },
   NOON_FOOD: {
     label: 'Noon Food',
@@ -90,6 +96,7 @@ export const PLATFORM_META: Record<Platform, {
     bgColor: '#FFFBE6',
     textColor: '#B89200',
     appScheme: 'noon',
+    membership: { label: 'Noon VIP', price: 'AED 25/mo', perk: 'Free delivery on all orders' },
   },
 }
 

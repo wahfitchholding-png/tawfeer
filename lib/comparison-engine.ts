@@ -4,7 +4,8 @@ import { ACTIVE_PLATFORMS } from '@/types'
 
 export async function compareCart(
   restaurantId: string,
-  cart: CartItem[]
+  cart: CartItem[],
+  memberships: Set<Platform> = new Set()
 ): Promise<PlatformResult[]> {
   if (cart.length === 0) return []
 
@@ -64,7 +65,8 @@ export async function compareCart(
       continue
     }
 
-    const deliveryFee = deliveryInfo.baseFee
+    // Members get free delivery
+    const deliveryFee = memberships.has(platform) ? 0 : deliveryInfo.baseFee
     const serviceFee =
       deliveryInfo.serviceFeeFlat +
       (itemsTotal * deliveryInfo.serviceFeePercent) / 100
@@ -114,6 +116,7 @@ export async function compareCart(
       total: parseFloat(total.toFixed(2)),
       estimatedMinutes: deliveryInfo.estimatedMinutes,
       deepLinkUrl: link.deepLinkUrl,
+      isMember: memberships.has(platform),
     })
   }
 

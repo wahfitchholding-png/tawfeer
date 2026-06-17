@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
 import { Search, MapPin, ArrowLeft } from 'lucide-react'
+import { MembershipSettings } from '@/components/MembershipSettings'
 import { prisma } from '@/lib/prisma'
 import { haversineDistance } from '@/lib/utils'
 import { RestaurantCard } from '@/components/RestaurantCard'
@@ -136,7 +137,8 @@ export default async function RestaurantsPage({ searchParams }: Props) {
         </form>
       </div>
 
-      <div className="flex-1 p-4">
+      <div className="flex-1 p-4 space-y-4">
+        <MembershipSettings />
         <Suspense fallback={<RestaurantSkeleton />}>
           <RestaurantListWithDiscovery lat={lat} lng={lng} q={q} />
         </Suspense>

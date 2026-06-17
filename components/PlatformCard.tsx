@@ -83,8 +83,20 @@ export function PlatformCard({ result, rank }: Props) {
           <span>{formatAED(result.itemsTotal)}</span>
         </div>
         <div className="flex justify-between text-muted-foreground">
-          <span>Delivery fee</span>
-          <span>{formatAED(result.deliveryFee)}</span>
+          <span className="flex items-center gap-1.5">
+            Delivery fee
+            {result.isMember && (
+              <span
+                className="text-xs px-1.5 py-0.5 rounded-full font-medium"
+                style={{ backgroundColor: meta.bgColor, color: meta.textColor }}
+              >
+                {meta.membership?.label ?? 'Member'}
+              </span>
+            )}
+          </span>
+          <span className={result.isMember && result.deliveryFee === 0 ? 'text-green-600 font-medium' : ''}>
+            {result.isMember && result.deliveryFee === 0 ? 'Free' : formatAED(result.deliveryFee)}
+          </span>
         </div>
         {result.serviceFee > 0 && (
           <div className="flex justify-between text-muted-foreground">

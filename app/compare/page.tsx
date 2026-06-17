@@ -5,7 +5,8 @@ import { compareCart } from '@/lib/comparison-engine'
 import { PlatformCard } from '@/components/PlatformCard'
 import { Skeleton } from '@/components/ui/skeleton'
 import { PLATFORM_META } from '@/types'
-import type { CartItem } from '@/types'
+import type { CartItem, Platform } from '@/types'
+import { parseMembershipParam } from '@/hooks/useMemberships'
 
 interface Props {
   searchParams: Promise<{
@@ -13,17 +14,21 @@ interface Props {
     lat?: string
     lng?: string
     cart?: string
+    members?: string
   }>
 }
 
 async function ComparisonResults({
   restaurantId,
   cart,
+  members,
 }: {
   restaurantId: string
   cart: CartItem[]
+  members: string
 }) {
-  const results = await compareCart(restaurantId, cart)
+  const memberships = parseMembershipParam(members)
+  const results = await compareCart(restaurantId, cart, memberships as Set<Platform>)
 
   if (results.length === 0) {
     return (
@@ -85,6 +90,7 @@ export default async function ComparePage({ searchParams }: Props) {
   const restaurantId = params.restaurantId
   const lat = parseFloat(params.lat ?? '25.0805')
   const lng = parseFloat(params.lng ?? '55.1403')
+  const members = params.members ?? ''
 
   let cart: CartItem[] = []
   try {
@@ -144,7 +150,7 @@ export default async function ComparePage({ searchParams }: Props) {
           </div>
         ) : (
           <Suspense fallback={<ComparisonSkeleton />}>
-            <ComparisonResults restaurantId={restaurantId} cart={cart} />
+            <ComparisonResults restaurantId={restaurantId} cart={cart} members={members} />
           </Suspense>
         )}
       </div>
