@@ -6,7 +6,7 @@ import { PlatformCard } from '@/components/PlatformCard'
 import { Skeleton } from '@/components/ui/skeleton'
 import { PLATFORM_META } from '@/types'
 import type { CartItem, Platform } from '@/types'
-import { parseMembershipParam } from '@/hooks/useMemberships'
+import { parseMembershipParam } from '@/lib/memberships'
 
 interface Props {
   searchParams: Promise<{

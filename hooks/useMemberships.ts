@@ -7,6 +7,8 @@ export type MembershipMap = Partial<Record<Platform, boolean>>
 
 const STORAGE_KEY = 'tawfeer_memberships'
 
+export { parseMembershipParam } from '@/lib/memberships'
+
 export function useMemberships() {
   const [memberships, setMembershipsState] = useState<MembershipMap>({})
 
@@ -36,10 +38,4 @@ export function useMemberships() {
   const toParam = () => memberPlatforms.join(',')
 
   return { memberships, toggle, memberPlatforms, toParam }
-}
-
-// Reads membership param from URL and returns a Set
-export function parseMembershipParam(param?: string): Set<Platform> {
-  if (!param) return new Set()
-  return new Set(param.split(',').filter(Boolean) as Platform[])
 }
