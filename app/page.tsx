@@ -6,7 +6,7 @@ export default function Home() {
       {/* Logo */}
       <div className="text-center">
         <div className="text-5xl font-black text-primary tracking-tight">
-          Price<span className="text-foreground">Drop</span>
+          Taw<span className="text-foreground">feer</span>
         </div>
         <p className="text-xs text-muted-foreground mt-1 uppercase tracking-widest">Dubai</p>
       </div>

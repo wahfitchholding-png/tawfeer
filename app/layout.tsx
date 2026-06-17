@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'PriceDrop — Cheapest Delivery in Dubai',
+  title: 'Tawfeer — Cheapest Delivery in Dubai',
   description: 'Compare Talabat, Deliveroo, Careem and Keeta prices for the same restaurant. Always order at the lowest price.',
-  keywords: ['food delivery', 'Dubai', 'Talabat', 'Deliveroo', 'Careem', 'Keeta', 'price comparison'],
+  keywords: ['food delivery', 'Dubai', 'Talabat', 'Deliveroo', 'Careem', 'Keeta', 'price comparison', 'tawfeer'],
 }
 
 export const viewport: Viewport = {
