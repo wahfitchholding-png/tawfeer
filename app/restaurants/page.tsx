@@ -3,6 +3,7 @@ import { Search, MapPin } from 'lucide-react'
 import { prisma } from '@/lib/prisma'
 import { haversineDistance } from '@/lib/utils'
 import { RestaurantCard } from '@/components/RestaurantCard'
+import { DiscoveryLoader } from '@/components/DiscoveryLoader'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 import type { RestaurantSummary, Platform } from '@/types'
@@ -58,6 +59,22 @@ async function RestaurantList({ lat, lng, q }: { lat: number; lng: number; q?: s
         <RestaurantCard key={r.id} restaurant={r} lat={lat} lng={lng} />
       ))}
     </div>
+  )
+}
+
+async function RestaurantListWithDiscovery({ lat, lng, q }: { lat: number; lng: number; q?: string }) {
+  // Count how many restaurants we have near this location right now
+  const all = await prisma.restaurant.findMany({
+    where: { isActive: true },
+    select: { lat: true, lng: true },
+  })
+  const nearbyCount = all.filter(r => haversineDistance(lat, lng, r.lat, r.lng) <= 5).length
+
+  return (
+    <>
+      <DiscoveryLoader lat={lat} lng={lng} nearbyCount={nearbyCount} />
+      <RestaurantList lat={lat} lng={lng} q={q} />
+    </>
   )
 }
 
@@ -117,7 +134,7 @@ export default async function RestaurantsPage({ searchParams }: Props) {
 
       <div className="flex-1 p-4">
         <Suspense fallback={<RestaurantSkeleton />}>
-          <RestaurantList lat={lat} lng={lng} q={q} />
+          <RestaurantListWithDiscovery lat={lat} lng={lng} q={q} />
         </Suspense>
       </div>
     </div>

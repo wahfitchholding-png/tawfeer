@@ -1,0 +1,2 @@
+[phases.build]
+cmds = ['npx playwright install --with-deps chromium', 'npm run build']
